@@ -1,19 +1,20 @@
 from app.data.db import connect_database
 
-def fetch_user(uname):
-    connection = connect_database()
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM users WHERE username = ?", (uname,))
-    user_record = cursor.fetchone()
-    connection.close()
-    return user_record
+def get_user_by_username(username):
+    conn = connect_database()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+    user = cursor.fetchone()
+    conn.close()
+    return user
 
-def add_user(uname, pwd_hash, role_type='user'):
-    connection = connect_database()
-    cursor = connection.cursor()
+
+def insert_user(username, password_hash, role="user"):
+    conn = connect_database()
+    cursor = conn.cursor()
     cursor.execute(
         "INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)",
-        (uname, pwd_hash, role_type)
+        (username, password_hash, role)
     )
-    connection.commit()
-    connection.close()
+    conn.commit()
+    conn.close()

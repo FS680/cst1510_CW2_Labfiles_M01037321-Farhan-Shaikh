@@ -1,0 +1,6 @@
+date,incident_type,severity,status,description,reported_by
+2024-11-01,Phishing,High,Open,Suspicious email received,alice
+2024-11-02,Malware,Critical,Investigating,Workstation infected with malware,bob
+2024-11-03,DDoS,Medium,Resolved,Website was under DDoS attack,charlie
+2024-11-04,Ransomware,Critical,Open,Encrypted files found on server,alice
+2024-11-05,Phishing,Low,Closed,User clicked suspicious link,bob

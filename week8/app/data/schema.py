@@ -1,17 +1,21 @@
-def tbl_users(db):
-    cursor = db.cursor()
+from app.data.db import connect_database
+
+def create_users_table(conn):
+    cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
             password_hash TEXT NOT NULL,
-            role TEXT DEFAULT 'user'
+            role TEXT DEFAULT 'user',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-    db.commit()
+    conn.commit()
 
-def tbl_incidents(db):
-    cursor = db.cursor()
+
+def create_cyber_incidents_table(conn):
+    cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS cyber_incidents (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,13 +25,15 @@ def tbl_incidents(db):
             status TEXT,
             description TEXT,
             reported_by TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (reported_by) REFERENCES users(username)
         )
     """)
-    db.commit()
+    conn.commit()
 
-def tbl_datasets(db):
-    cursor = db.cursor()
+
+def create_datasets_metadata_table(conn):
+    cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS datasets_metadata (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,10 +46,11 @@ def tbl_datasets(db):
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-    db.commit()
+    conn.commit()
 
-def tbl_it_tix(db):
-    cursor = db.cursor()
+
+def create_it_tickets_table(conn):
+    cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS it_tickets (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -59,10 +66,11 @@ def tbl_it_tix(db):
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
-    db.commit()
+    conn.commit()
 
-def init_schema(db):
-    tbl_users(db)
-    tbl_incidents(db)
-    tbl_datasets(db)
-    tbl_it_tix(db)
+
+def create_all_tables(conn):
+    create_users_table(conn)
+    create_cyber_incidents_table(conn)
+    create_datasets_metadata_table(conn)
+    create_it_tickets_table(conn)
