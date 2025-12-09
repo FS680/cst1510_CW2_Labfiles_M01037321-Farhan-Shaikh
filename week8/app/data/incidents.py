@@ -1,5 +1,5 @@
 import pandas as pd
-from app.data.db import connect_database
+from app.data.db import open_db
 
 def add_incident(db, d, itype, level, state, detail, reporter=None):
     cursor = db.cursor()
